@@ -4,7 +4,6 @@ const song = {
     image: "image1.jpg",
     artist: "Narci"
 };
-
 const track = new Audio(song.path);
 const playButton = document.querySelector("#play");
 const previousButton = document.querySelector("#previous");
@@ -29,7 +28,6 @@ function updatePlayButton() {
     playButton.src = track.paused ? "play.svg" : "pause.svg";
     playButton.alt = track.paused ? "Play" : "Pause";
 }
-
 function togglePlayback() {
     if (track.paused) {
         track.play().catch(() => updatePlayButton());
@@ -38,13 +36,11 @@ function togglePlayback() {
     }
     updatePlayButton();
 }
-
 function restartSong() {
     track.currentTime = 0;
     track.play().catch(() => updatePlayButton());
     updatePlayButton();
 }
-
 playButton.addEventListener("click", togglePlayback);
 previousButton.addEventListener("click", restartSong);
 nextButton.addEventListener("click", restartSong);
@@ -52,25 +48,20 @@ nextButton.addEventListener("click", restartSong);
 volumeRange.addEventListener("input", () => {
     track.volume = Number(volumeRange.value) / 100;
 });
-
 track.addEventListener("loadedmetadata", () => {
     durationRange.max = track.duration;
     durationRange.disabled = false;
 });
-
 track.addEventListener("timeupdate", () => {
     durationRange.value = track.currentTime;
 });
-
 durationRange.addEventListener("input", () => {
     track.currentTime = Number(durationRange.value);
 });
-
 track.addEventListener("play", updatePlayButton);
 track.addEventListener("pause", updatePlayButton);
 track.addEventListener("ended", () => {
     track.currentTime = 0;
     updatePlayButton();
 });
-
 updatePlayButton();
